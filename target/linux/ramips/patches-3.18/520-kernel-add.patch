@@ -1,0 +1,19 @@
+--- a/drivers/mtd/Makefile	2018-11-25 16:09:57.693474451 +0800
++++ b/drivers/mtd/Makefile	2018-11-25 16:08:22.674302756 +0800
+@@ -33,7 +33,7 @@
+ nftl-objs		:= nftlcore.o nftlmount.o
+ inftl-objs		:= inftlcore.o inftlmount.o
+ 
+-obj-y		+= chips/ lpddr/ maps/ devices/ nand/ onenand/ tests/
++obj-y		+= chips/ lpddr/ maps/ devices/ nand/ onenand/ tests/ ralink/
+ 
+ obj-$(CONFIG_MTD_SPI_NOR)	+= spi-nor/
+ obj-$(CONFIG_MTD_UBI)		+= ubi/
+--- a/drivers/net/Makefile	2018-11-25 16:09:57.805477764 +0800
++++ b/drivers/net/Makefile	2018-11-25 21:05:24.333302156 +0800
+@@ -65,3 +65,5 @@
+ 
+ obj-$(CONFIG_HYPERV_NET) += hyperv/
+ obj-$(CONFIG_NTB_NETDEV) += ntb_netdev.o
++
++obj-y += wireless/ralink/mt7628_ap/
