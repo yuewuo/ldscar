@@ -19,7 +19,6 @@ key-build*
 *.rej
 *~
 .#*
-!.config
 *#
 .emacs.desktop*
 TAGS*~

@@ -13,6 +13,7 @@ sudo apt-get install gcc g++ binutils patch bzip2 flex bison make autoconf gette
 # get feeds
 ./scripts/feeds update -a && ./scripts/feeds install -a
 # get packages
+mv ldscar.config .config
 make download -j1 V=s
 ```
 
