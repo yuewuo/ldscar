@@ -22,3 +22,5 @@ Build the image, you'll find the built image in `bin/ramips/`, the file name is 
 ```shell
 make -j8
 ```
+
+After system boot, you need to setup system using just a script called `python3 firstboot.py` under `/root`.

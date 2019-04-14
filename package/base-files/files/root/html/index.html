@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon"/>
+    <title>ldscar</title>
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    #main {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        display: table;
+    }
+    #inner {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 200%;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+    <div id="main">
+        <div id="inner">
+            <img src="favicon.png">
+            <p>ldscar</p>
+            <p style="font-size: 60%; color: grey;">a robot with lds7628</p>
+            <p style="font-size: 40%; color: peru;">
+                websocket connection: <strong id="status">loading</strong>, 
+                clientid: <strong id="clientid">loading</strong>
+            </p>
+        </div>
+    </div>
+
+    <script src="mqttws31.min.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+<script>
+function randomID() {
+    let length = 6;
+    let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var result = '';
+    for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+    return result;
+}
+var mqtt;
+var host = document.domain;  // 192.168.1.1
+var port = 80;
+var useSSL = false;
+var topic = 'ldscar';
+var clientid = randomID();
+function set_status(color, html) {
+    $("#status").css("color", color);
+    $("#status").html(html);
+}
+function mqtt_connect() {
+    set_status("green", "已连接");
+    mqtt.subscribe(topic);
+}
+var cmdcnt = 0;
+function mqtt_message_arrive(message) {
+    let command = message.payloadString;
+    console.log("message received: [" + (++cmdcnt) + "]: " + command);
+}
+function mqtt_connection_lost() {
+    set_status("red", "断线重连中...");
+    hide_iframe(null, 300);
+}
+function mqtt_failure() {
+    set_status("red", "连接失败");
+}
+window.onload = function() {
+    set_status("red", "正在初始化...");
+    if (getpara("host") != null) host = getpara("host");
+    if (getpara("port") != null) port = parseInt(getpara("port"));
+    if (getpara("useSSL") != null) useSSL = getpara("useSSL");
+    if (getpara("topic") != null) topic = getpara("topic");
+    if (getpara("clientid") != null) clientid = getpara("clientid");
+    $("#clientid").html(clientid);
+    mqtt = new Paho.MQTT.Client(host, port, clientid);  // the last parameter is clientid, using topic instead
+    mqtt.onConnectionLost = mqtt_connection_lost;
+    mqtt.onMessageArrived  = mqtt_message_arrive;
+    mqtt.connect({
+        useSSL, mqttVersion: 4, timeout: 3, keepAliveInterval: 10,
+        onSuccess: mqtt_connect,
+        onFailure: mqtt_failure,
+    });
+}
+function getpara(name) {
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null) return unescape(r[2]); return null;
+}
+</script>
+</body>
+</html>
