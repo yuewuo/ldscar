@@ -11,6 +11,8 @@ define Package/ldscar
 	SECTION:=utils
 	CATEGORY:=Utilities
 	TITLE:=ldscar -- a library for remote control
+	DEPENDS+=libstdcpp
+	DEPENDS+=libmosquitto
 endef
 
 define Package/ldscar/description
