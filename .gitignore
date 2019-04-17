@@ -23,4 +23,5 @@ key-build*
 .emacs.desktop*
 TAGS*~
 git-src
+.vscode
 
