@@ -28,6 +28,8 @@ endef
 define Package/ldscar/install
 	$(INSTALL_DIR) $(1)/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ldscar $(1)/bin/
+	$(INSTALL_DIR) $(1)/etc/init.d/
+	$(INSTALL_BIN) ./ldscar.init $(1)/etc/init.d/ldscar
 endef
 
 $(eval $(call BuildPackage,ldscar))

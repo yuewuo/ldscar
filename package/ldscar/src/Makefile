@@ -1,4 +1,4 @@
-objects = ldscar.o serial.o unix.o list_ports_linux.o mqtt_handler.o test_cases.o
+objects = ldscar.o serial.o unix.o list_ports_linux.o server_handler.o test_cases.o
 
 ldscar: $(objects)
 	$(CXX) $(LDFLAGS) -lmosquitto -lpthread $(objects) -o ldscar
@@ -6,8 +6,8 @@ ldscar: $(objects)
 ldscar.o: ldscar.cpp
 	$(CXX) $(CFLAGS) -c ldscar.cpp
 
-mqtt_handler.o: mqtt_handler.cpp
-	$(CXX) $(CFLAGS) -c mqtt_handler.cpp
+server_handler.o: server_handler.cpp
+	$(CXX) $(CFLAGS) -c server_handler.cpp
 
 test_cases.o : test_cases.cpp
 	$(CXX) $(CFLAGS) -c test_cases.cpp

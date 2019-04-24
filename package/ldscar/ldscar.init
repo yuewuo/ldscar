@@ -1,0 +1,14 @@
+#!/bin/sh /etc/rc.common
+
+START=200
+APP=ldscar
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+
+start() {
+    service_start /bin/ldscar -s -o /var/log/ldscar.log
+}
+
+stop() {
+    service_stop /bin/ldscar
+}

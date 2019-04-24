@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <vector>
 #include "serial.h"
@@ -25,6 +26,7 @@ extern void log_callback(struct mosquitto *mosq, void *userdata, int level, cons
 extern void message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
 extern void connect_callback(struct mosquitto *mosq, void *userdata, int result);
 extern void subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+extern void start_serial_server(Serial** uart_ptr, const char* device, pthread_t* thptr, void** args);
 
 extern struct mosquitto* mosq;
 extern const char* HOST;
@@ -35,5 +37,8 @@ extern const char* PASSWORD;
 #define TEST_THREAD 0
 #define TEST_UART1 1
 extern void run_test_case(int test_case);
+
+extern Serial* uart1;
+extern Serial* uart2;
 
 #endif

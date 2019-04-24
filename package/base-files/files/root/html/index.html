@@ -57,7 +57,7 @@ var mqtt;
 var host = document.domain;  // 192.168.1.1
 var port = 80;
 var useSSL = false;
-var topic = 'ldscar';
+var topic = 'ldscar/#';
 var clientid = randomID();
 function set_status(color, html) {
     $("#status").css("color", color);
@@ -66,8 +66,16 @@ function set_status(color, html) {
 function mqtt_connect() {
     set_status("green", "connected");
     mqtt.subscribe(topic);
+    let message = new Paho.MQTT.Message("who?");
+    message.destinationName = "ldscar/query";
+    mqtt.send(message);
 }
 var cmdcnt = 0;
+function mqtt_send(topic, payload) {
+    let message = new Paho.MQTT.Message(payload);
+    message.destinationName = topic;
+    mqtt.send(message);
+}
 function mqtt_message_arrive(message) {
     let command = message.payloadString;
     console.log("message received: [" + (++cmdcnt) + "]: " + command);
