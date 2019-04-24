@@ -64,7 +64,7 @@ function set_status(color, html) {
     $("#status").html(html);
 }
 function mqtt_connect() {
-    set_status("green", "已连接");
+    set_status("green", "connected");
     mqtt.subscribe(topic);
 }
 var cmdcnt = 0;
@@ -73,14 +73,14 @@ function mqtt_message_arrive(message) {
     console.log("message received: [" + (++cmdcnt) + "]: " + command);
 }
 function mqtt_connection_lost() {
-    set_status("red", "断线重连中...");
+    set_status("red", "connection broken");
     hide_iframe(null, 300);
 }
 function mqtt_failure() {
-    set_status("red", "连接失败");
+    set_status("red", "connection failed");
 }
 window.onload = function() {
-    set_status("red", "正在初始化...");
+    set_status("red", "initializing...");
     if (getpara("host") != null) host = getpara("host");
     if (getpara("port") != null) port = parseInt(getpara("port"));
     if (getpara("useSSL") != null) useSSL = getpara("useSSL");

@@ -13,6 +13,7 @@ define Package/ldscar
 	TITLE:=ldscar -- a library for remote control
 	DEPENDS+=libstdcpp
 	DEPENDS+=libmosquitto
+	DEPENDS+=libpthread
 endef
 
 define Package/ldscar/description
