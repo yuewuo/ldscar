@@ -2,6 +2,7 @@
 
 static void run_test_thread();
 static void run_test_uart1();
+static void run_test_lagacy_uart1();
 
 void run_test_case(int test_case) {
     switch(test_case) {
@@ -11,11 +12,44 @@ void run_test_case(int test_case) {
         case TEST_UART1:
             run_test_uart1();
             break;
+        case TEST_LEGACY_UART1:
+            run_test_lagacy_uart1();
+            break;
         default:
             printf("unknown test case number %d, exit\n", test_case);
             exit(-1);
     }
     printf("test finished\n");
+}
+
+static void run_test_lagacy_uart1() {
+    printf("hello world\n");
+    int fd;
+    fd = open( "/dev/ttyS1", O_RDWR);
+    if (-1 == fd) { perror("open failed"); }
+    printf("open success\n");
+    struct  termios Opt;
+    tcgetattr(fd, &Opt);  // get current status
+    cfsetispeed(&Opt, B115200);
+    cfsetospeed(&Opt, B115200);
+    // use RAW
+    Opt.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);  /*Input*/
+    Opt.c_oflag &= ~OPOST;   /*Output*/
+    tcsetattr(fd, TCSANOW, &Opt);  // set immediately
+    printf("init success\n");
+    char buffer[32];
+    strcpy(buffer, "hello");
+    int length = 5;
+    int nbyte;
+    nbyte = write(fd, buffer, length);
+    assert(nbyte == length);
+    printf("send success\n");
+    usleep(100000);
+    nbyte = read(fd, buffer, 32);
+    printf("receive %d bytes:\n", nbyte);
+    buffer[nbyte] = '\0';
+    printf("%s\n", buffer);
+    close(fd);
 }
 
 static void* test_thread_child(void* data) {

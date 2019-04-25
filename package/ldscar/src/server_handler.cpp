@@ -48,11 +48,12 @@ void* serial_receiver(void* data) {
     printf("serial_listener start, publish on %s\n", topic);
     uint8_t buf[1024];
     while (1) {
-        size_t len = uart.read(buf, sizeof(buf));
-        printf("receive timeout\n");
+        // size_t len = uart.read(buf, sizeof(buf));
+        size_t len = uart.read(buf, 1);
+        // printf("receive timeout\n");
         if (len) {  // received
-            printf("recv %llu\n", len);
-            mosquitto_publish(mosq, NULL, topic, len, buf, 2, 0);
+            printf("recv %d\n", len);
+            mosquitto_publish(mosq, NULL, topic, len, buf, 0, 0);
         }
     }
 }
@@ -84,12 +85,14 @@ void log_callback(struct mosquitto *mosq, void *userdata, int level, const char 
 void message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message) {
     if (strcmp(message->topic, "ldscar/query") == 0) {
         // reply to query
-        mosquitto_publish(mosq, NULL, "ldscar/info", strlen(VERSION_STR), VERSION_STR, 2, 0);
+        mosquitto_publish(mosq, NULL, "ldscar/info", strlen(VERSION_STR), VERSION_STR, 0, 0);
     } else if (strcmp(message->topic, "ldscar/uart1/send") == 0) {
         printf("payloadlen = %d, payload= %s\n", message->payloadlen, message->payload);
         uart1->write((const uint8_t*)message->payload, message->payloadlen);
+        // uart1->flush();
     } else if (strcmp(message->topic, "ldscar/uart2/send") == 0) {
         uart2->write((const uint8_t*)message->payload, message->payloadlen);
+        // uart2->flush();
     }
 }
 

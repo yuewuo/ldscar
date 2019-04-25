@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="/favicon.png" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon"/>
+    <title>Webcam</title>
+<style>
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    #main {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        display: table;
+    }
+    #inner {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 200%;
+        font-weight: bold;
+    }
+    #webcam {
+        width: 70%;
+    }
+</style>
+</head>
+<body>
+    <div id="main">
+        <div id="inner">
+            <h3>WebCAM demo</h3>
+            <p style="font-size: 60%;">visit webcam using <a id="url"></a></p>
+            <img id="webcam" style="-webkit-user-select: none;">
+        </div>
+    </div>
+    <script src="/jquery-3.3.1.min.js"></script>
+<script>
+$(function() {
+    let url = "http://" + document.domain + ":8080/?action=stream";
+    $("#webcam").attr("src", url);
+    $("#url").attr("href", url);
+    $("#url").html(url);
+});
+</script>
+</body>
+</html>

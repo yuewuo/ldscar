@@ -11,13 +11,19 @@
 #include <pthread.h>
 #include <fcntl.h>
 #include <string>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <termios.h>
+#include <errno.h>
+#include "assert.h"
 using std::vector;
 using serial::Serial;
 using serial::PortInfo;
 using serial::list_ports;
 using std::string;
 
-#define VERSION_STR "ldscar v0.0.5"
+#define VERSION_STR "ldscar v0.0.6, compiled at " __TIME__ ", " __DATE__ 
 
 extern void help_exit();
 extern void list_exit();
@@ -36,6 +42,7 @@ extern const char* PASSWORD;
 
 #define TEST_THREAD 0
 #define TEST_UART1 1
+#define TEST_LEGACY_UART1 2
 extern void run_test_case(int test_case);
 
 extern Serial* uart1;

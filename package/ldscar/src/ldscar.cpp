@@ -39,7 +39,7 @@ void help_exit(){
     int major, minor, revision;
     mosquitto_lib_version(&major, &minor, &revision);
     printf("ldscar utility with mosquitto %d.%d.%d\n", major, minor, revision);
-    printf("version: %s\n", VERSION_STR);
+    printf("version: \e[0;32m%s\e[0m\n", VERSION_STR);
     printf("usage: ldscar <args>\n");
     printf("possible arguments:\n");
     printf("    -l: list serial ports of the system\n");
@@ -47,6 +47,7 @@ void help_exit(){
     printf("    -t <testcase>: run test-cases, possible values are:\n");
     printf("        %d: test thread\n", TEST_THREAD);
     printf("        %d: test uart1 by sending \"hello\\n\" per second and print whatever received\n", TEST_UART1);
+    printf("        %d: test legacy uart1 read-write, the same behaviour with above\n", TEST_LEGACY_UART1);
     printf("    -o <filename>: redirect stdout and stderr to file\n");
     printf("\n");
     printf("MQTT client setup (no password allowed):\n");

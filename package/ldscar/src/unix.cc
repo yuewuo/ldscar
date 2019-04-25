@@ -3,7 +3,7 @@
  * Additional Contributors: Christopher Baker @bakercp
  */
 
-#define WUYUEPKU_DELETE
+// #define WUYUEPKU_DELETE
 
 #if !defined(_WIN32)
 

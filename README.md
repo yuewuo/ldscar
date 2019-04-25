@@ -24,3 +24,8 @@ make -j8
 ```
 
 After system boot, you need to setup system using just a script called `python3 firstboot.py` under `/root`.
+
+## Usage
+
+After system setup, you could visit http://[ip of your device]/ for a welcome page.
+
