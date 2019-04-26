@@ -2,7 +2,7 @@
 
 static void run_test_thread();
 static void run_test_uart1();
-static void run_test_lagacy_uart1();
+static void run_test_legacy_uart1();
 
 void run_test_case(int test_case) {
     switch(test_case) {
@@ -13,7 +13,7 @@ void run_test_case(int test_case) {
             run_test_uart1();
             break;
         case TEST_LEGACY_UART1:
-            run_test_lagacy_uart1();
+            run_test_legacy_uart1();
             break;
         default:
             printf("unknown test case number %d, exit\n", test_case);
@@ -22,7 +22,13 @@ void run_test_case(int test_case) {
     printf("test finished\n");
 }
 
-static void run_test_lagacy_uart1() {
+// this is a try to use legacy uart for read and write, because Serial has too long delay
+// however, return to the Serial implementation I found the read() function would wait enough length!!!
+// this is just a try, so move back to Serial is OK, understanding how to use it
+// this cost me 1day!!!
+// BTW, if you do not kill background ldscar server, you would get exception because system report serial readable but data is read by others!!!
+// serial port could be opened by multiple program, however, this may cause race when read.
+static void run_test_legacy_uart1() {
     printf("hello world\n");
     int fd;
     fd = open( "/dev/ttyS1", O_RDWR);
@@ -44,11 +50,13 @@ static void run_test_lagacy_uart1() {
     nbyte = write(fd, buffer, length);
     assert(nbyte == length);
     printf("send success\n");
-    usleep(100000);
-    nbyte = read(fd, buffer, 32);
-    printf("receive %d bytes:\n", nbyte);
-    buffer[nbyte] = '\0';
-    printf("%s\n", buffer);
+    for (int i=0; i<1; ++i) {
+        usleep(10000);
+        nbyte = read(fd, buffer, 32);
+        printf("receive %d bytes:\n", nbyte);
+        buffer[nbyte] = '\0';
+        printf("%s\n", buffer);
+    }
     close(fd);
 }
 

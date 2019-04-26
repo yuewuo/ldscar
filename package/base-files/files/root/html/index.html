@@ -82,7 +82,7 @@ function mqtt_send(topic, payload) {
 }
 function mqtt_message_arrive(message) {
     let command = message.payloadString;
-    console.log("message received: [" + (++cmdcnt) + "]: " + command);
+    console.log(message.destinationName + ": [" + (++cmdcnt) + "]: " + command);
 }
 function mqtt_connection_lost() {
     set_status("red", "connection broken");

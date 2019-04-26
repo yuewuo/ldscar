@@ -50,7 +50,7 @@ void help_exit(){
     printf("        %d: test legacy uart1 read-write, the same behaviour with above\n", TEST_LEGACY_UART1);
     printf("    -o <filename>: redirect stdout and stderr to file\n");
     printf("\n");
-    printf("MQTT client setup (no password allowed):\n");
+    printf("MQTT client setup:\n");
     printf("    -H <hostname>: MQTT broker hostname\n");
     printf("    -P <port>: MQTT broker port\n");
     printf("    -u <username>: MQTT username (if applicapble)\n");

@@ -23,7 +23,7 @@ using serial::PortInfo;
 using serial::list_ports;
 using std::string;
 
-#define VERSION_STR "ldscar v0.0.6, compiled at " __TIME__ ", " __DATE__ 
+#define VERSION_STR "ldscar v0.1.2, compiled at " __TIME__ ", " __DATE__ 
 
 extern void help_exit();
 extern void list_exit();
@@ -47,5 +47,7 @@ extern void run_test_case(int test_case);
 
 extern Serial* uart1;
 extern Serial* uart2;
+
+#define USEQOS 2
 
 #endif

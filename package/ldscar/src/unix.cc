@@ -3,8 +3,6 @@
  * Additional Contributors: Christopher Baker @bakercp
  */
 
-// #define WUYUEPKU_DELETE
-
 #if !defined(_WIN32)
 
 #include <stdio.h>
@@ -577,7 +575,6 @@ Serial::SerialImpl::read (uint8_t *buf, size_t size)
         ::read (fd_, buf + bytes_read, size - bytes_read);
       // read should always return some data as select reported it was
       // ready to read when we get to this point.
-#ifndef WUYUEPKU_DELETE
       if (bytes_read_now < 1) {
         // Disconnected devices, at least on Linux, show the
         // behavior that they are always ready to read immediately
@@ -585,7 +582,6 @@ Serial::SerialImpl::read (uint8_t *buf, size_t size)
         throw SerialException ("device reports readiness to read but "
                                "returned no data (device disconnected?)");
       }
-#endif
       // Update bytes_read
       bytes_read += static_cast<size_t> (bytes_read_now);
       // If bytes_read == size then we have read everything we need
@@ -658,7 +654,6 @@ Serial::SerialImpl::write (const uint8_t *data, size_t length)
           ::write (fd_, data + bytes_written, length - bytes_written);
         // write should always return some data as select reported it was
         // ready to write when we get to this point.
-#ifndef WUYUEPKU_DELETE
         if (bytes_written_now < 1) {
           // Disconnected devices, at least on Linux, show the
           // behavior that they are always ready to write immediately
@@ -666,7 +661,6 @@ Serial::SerialImpl::write (const uint8_t *data, size_t length)
           throw SerialException ("device reports readiness to write but "
                                  "returned no data (device disconnected?)");
         }
-#endif
         // Update bytes_written
         bytes_written += static_cast<size_t> (bytes_written_now);
         // If bytes_written == size then we have written everything we need to
